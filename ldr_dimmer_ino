@@ -1,0 +1,52 @@
+
+/*
+ * Project:   LDR Auto-Dimmer
+ * Author:    Immaculate-hubsys
+ * Date:      June 2026
+ * Board:     Arduino Uno
+ * Simulator: Wokwi
+ *
+ * Description:
+ * Automatically adjusts LED brightness based on
+ * ambient light level using an LDR module and PWM.
+ * Bright light = dim LED. Dark room = bright LED.
+ * Sensor calibrated from 8-1023 (real hardware minimum).
+ */
+
+
+int led = 3;
+int ldr = A0;
+int ldrvalue = 0;
+int brightness = 0;
+int t = 100;
+
+unsigned long lastchanged = 0;
+
+
+
+
+void setup() {
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  ldrvalue = analogRead(ldr);
+  brightness = map(ldrvalue, 8, 1015, 0, 255);
+  analogWrite(led, brightness);
+
+  unsigned long now = millis();
+if(now-lastchanged >= t){
+
+lastchanged = now;
+Serial.print("LDR: ");
+Serial.print(ldrvalue);
+Serial.print(" Brightness ");
+Serial.println(brightness);
+
+}
+  // put your main code here, to run repeatedly:
+
+}
